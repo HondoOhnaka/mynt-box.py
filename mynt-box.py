@@ -133,7 +133,7 @@ def get_files(remote_dir, local_dir, full_overwrite=False):
     return num_files_copied
 
 if len(sys.argv) != 3:
-    print "Usage: python dbget.py <dropbox path> <local path>"
+    print "Usage: python mynt-box.py <dropbox path> <local path>"
 else:
     remote_dir, local_dir = sys.argv[1], sys.argv[2]
     files_transferred = get_files(remote_dir, local_dir)
@@ -143,4 +143,4 @@ else:
             print 'happy happy %d files trasnferred' % (files_transferred,)
             
         # generate the static files into your html public directory
-        subprocess.call(['mynt', 'gen', '-f', '/path/to/your/blog/directory', '/path/to/html/public/directory/'])
+        subprocess.call(['mynt', 'gen', '-f', '/path/to/your/blog/directory', '/path/to/public/html/directory/'])
