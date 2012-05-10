@@ -47,6 +47,17 @@ The last line in the script is the one with the most hard-codery.
     
 Change it to match your locations and run as needed. Attach to a cron job to execute at some interval to pull your files down and run the mynt cli generator.  
 
+## Execution ##
+
+To run `mynt-box.py` just do:
+    
+    python mynt-box.py <dropbox path> <local path>
+    
+If this is the first time you run the script, you'll need to authorize the
+"application" by visiting a url provided by Dropbox.  So you'll probably want to run in manually the first time.  
+
+It stores the access token locally and, once set, won't bother you for it again.
+
 ## Epilogue ##
 
 If there is any interest I may make this a bit more robust and less custom to my own needs.
