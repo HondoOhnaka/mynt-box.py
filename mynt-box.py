@@ -1,3 +1,4 @@
+#!/some/path/to/bin/python
 import os, shutil, datetime, time, sys
 from datetime import datetime
 from oauth import oauth
@@ -11,6 +12,7 @@ debug = False
 
 APP_KEY = '<YOUR DROPBOX KEY>'
 APP_SECRET = '<YOUR DROPBOX SECRET KEY>'
+ACCESS_TOKEN_FILE='/path/to/your/access_token.txt'
 
 # ACCESS_TYPE should be 'dropbox' or 'app_folder' as configured for your app
 ACCESS_TYPE = 'app_folder'
@@ -32,8 +34,8 @@ SERVER_TZ_OFFSET = 0
 sess = session.DropboxSession(APP_KEY, APP_SECRET, ACCESS_TYPE)
 dir_sep = "/"
 
-if os.path.exists("access_token.txt"):
-    s = file("access_token.txt").read()
+if os.path.exists(ACCESS_TOKEN_FILE):
+    s = file(ACCESS_TOKEN_FILE).read()
     t = oauth.OAuthToken.from_string(s)
     sess.set_token(t.key, t.secret)
 else:
@@ -43,7 +45,7 @@ else:
     print "GO THERE AND HIT ENTER AFTER APPROVING..."
     raw_input()
     access_token = sess.obtain_access_token(request_token)
-    file("access_token.txt", "w").write(str(access_token))
+    file(ACCESS_TOKEN_FILE, "w").write(str(access_token))
     
 db_client = client.DropboxClient(sess)
 
@@ -143,4 +145,4 @@ else:
             print 'happy happy %d files trasnferred' % (files_transferred,)
             
         # generate the static files into your html public directory
-        subprocess.call(['mynt', 'gen', '-f', '/path/to/your/blog/directory', '/path/to/public/html/directory/'])
+        subprocess.call(['/path/to/bin/mynt', 'gen', '-f', '/path/to/your/blog/directory', '/path/to/public/html/directory/'])

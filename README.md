@@ -32,31 +32,44 @@ Second, set how many minutes back you want to check for changes. The shortest in
      
     TIME_INTERVAL = 5 # minutes
     
-Embarrassingly, I have not done much with the datetime module so some of my configs for this are 
+Embarrassingly, I have not done much with the datetime module prior to this, so some of my configs for this are a bit kludgy. 
 
 I think the fixes for these are rather trivial, but for now these are part of my config. \[Feel free to submit the fixes for these.\] ;)
 
     TZ_OFFSET = 6 
-    SERVER_TZ_OFFSET = 0
+    SERVER_TZ_OFFSET = 0 # difference between my time and the server, may not be needed
 
-Set `debug` if you want some verbosity to track down errors.
+Set `debug = True` if you want some verbosity to track down errors.
 
 The last line in the script is the one with the most hard-codery.  
 
-    subprocess.call(['mynt', 'gen', '-f', '/path/to/your/blog/directory', '/path/to/public/html/directory/'])
+    subprocess.call(['/path/to/your/bin/mynt', 'gen', '-f', '/path/to/your/blog/directory', '/path/to/public/html/directory/'])
     
 Change it to match your locations and run as needed. Attach to a cron job to execute at some interval to pull your files down and run the mynt cli generator.  
 
 ## Execution ##
 
-To run `mynt-box.py` just do:
+### Manually ###
+
+Make it executable: `chmod 0755 mynt-box.py`
+
+Execute:
     
-    python mynt-box.py <dropbox path> <local path>
+    ./mynt-box.py <dropbox path> <local path>
     
 If this is the first time you run the script, you'll need to authorize the
 "application" by visiting a url provided by Dropbox.  So you'll probably want to run in manually the first time.  
 
 It stores the access token locally and, once set, won't bother you for it again.
+
+### Automated via crontab ###
+
+Add a cron entry for it to run as needed. For me, I run it every 5 minutes, so it looks like:
+
+	*/5 * * * * /path/to/home-dir/my_scripts/dbget.py _posts /path/to/your/blog/_posts >/dev/null 2>&1
+	
+I added the clause on the end to send email notifications to the "trash". Rather than get status messages every five minutes.
+	
 
 ## Epilogue ##
 
